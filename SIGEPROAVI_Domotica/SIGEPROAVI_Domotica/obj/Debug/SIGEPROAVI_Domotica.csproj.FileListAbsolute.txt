@@ -1,0 +1,13 @@
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\SIGEPROAVI_Domotica.exe.config
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\SIGEPROAVI_Domotica.exe
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\SIGEPROAVI_Domotica.pdb
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\obj\Debug\SIGEPROAVI_Domotica.csprojResolveAssemblyReference.cache
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\obj\Debug\SIGEPROAVI_Domotica.exe
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\obj\Debug\SIGEPROAVI_Domotica.pdb
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\M2Mqtt.Net.dll
+c:\users\joselo\documents\visual studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\M2Mqtt.Net.pdb
+C:\Users\Joselo\Documents\Visual Studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\RestSharp.dll
+C:\Users\Joselo\Documents\Visual Studio 2015\Projects\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\RestSharp.xml
+C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\SIGEPROAVI_Domotica.exe.config
+C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\obj\Debug\SIGEPROAVI_Domotica.exe
+C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\obj\Debug\SIGEPROAVI_Domotica.pdb
