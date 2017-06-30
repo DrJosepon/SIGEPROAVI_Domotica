@@ -42,6 +42,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,9 +52,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controlador\Dom_Componente_Electronico_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Galpon_Controlador.cs" />
+    <Compile Include="Controlador\Gpr_Servicio_Controlador.cs" />
+    <Compile Include="Controlador\Dom_Tipo_Control_Componente_Electronico_Controlador.cs" />
+    <Compile Include="Controlador\Gpr_Tipo_Servicio_Controlador.cs" />
     <Compile Include="DTO\BaseEntidad.cs" />
+    <Compile Include="DTO\Dom_Componente_ElectronicoDTO.cs" />
+    <Compile Include="DTO\Dom_Tipo_Control_Componente_ElectronicoDTO.cs" />
     <Compile Include="DTO\Gpr_GalponDTO.cs" />
+    <Compile Include="DTO\Gpr_ServicioDTO.cs" />
+    <Compile Include="DTO\Gpr_Tipo_ServicioDTO.cs" />
     <Compile Include="DTO\IBaseEntidad.cs" />
     <Compile Include="Placeholder.cs" />
     <Compile Include="Program.cs" />

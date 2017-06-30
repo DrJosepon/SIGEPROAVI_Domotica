@@ -2,27 +2,25 @@
 using SIGEPROAVI_Domotica.DTO;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SIGEPROAVI_Domotica.Controlador
 {
-    public static class Gpr_Galpon_Controlador
+    public static class Gpr_Servicio_Controlador
     {
         private static string rutaAPI = System.Configuration.ConfigurationManager.AppSettings["RutaAPI"].ToString();
 
         private static RestClient client = new RestClient(rutaAPI);
 
-        public static List<Gpr_GalponDTO> ListarGalpones()
+        public static List<Gpr_ServicioDTO> ListarServicioes()
         {
-            var request = new RestRequest("Gpr_Galpon", Method.GET);
+            var request = new RestRequest("Gpr_Servicio", Method.GET);
             request.RequestFormat = DataFormat.Json;
 
-            //request.AddParameter("Gpr_Galpon", request.JsonSerializer.Serialize(gpr_Galpon));
-            //request.AddBody(gpr_Galpon);
-
-            var response = client.Execute<List<Gpr_GalponDTO>>(request);
+            var response = client.Execute<List<Gpr_ServicioDTO>>(request);
 
             return response.Data;
         }
