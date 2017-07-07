@@ -21,6 +21,10 @@ namespace SIGEPROAVI_Domotica
         public static List<Dom_Componente_ElectronicoDTO> componenteselectronicos = new List<Dom_Componente_ElectronicoDTO>();
         public static List<Dom_Tipo_Control_Componente_ElectronicoDTO> tipocontrolescomponenteselectronicos = new List<Dom_Tipo_Control_Componente_ElectronicoDTO>();
         public static List<Gpr_Tipo_ServicioDTO> tiposervicios = new List<Gpr_Tipo_ServicioDTO>();
+        public static List<Dom_Control_Componente_ElectronicoDTO> contolcomponenteelectronico = new List<Dom_Control_Componente_ElectronicoDTO>();
+
+        public static int flip = 0;
+        public static int flipMinuto = 0;
 
         private static void Main(string[] args)
         {
@@ -41,6 +45,7 @@ namespace SIGEPROAVI_Domotica
             componenteselectronicos = Dom_Componente_Electronico_Controlador.ListarTipoControlComponenteElectronico();
             tipocontrolescomponenteselectronicos = Dom_Tipo_Control_Componente_Electronico_Controlador.ListarTipoControlComponenteElectronico();
             tiposervicios = Gpr_Tipo_Servicio_Controlador.ListarTipoServicioes();
+            contolcomponenteelectronico = Dom_Control_Componente_Electronico_Controlador.ListarControlComponenteElectronico();
         }
 
         private static void mtdCargarTopics()
@@ -60,8 +65,6 @@ namespace SIGEPROAVI_Domotica
         {
             foreach (Gpr_GalponDTO galpon in galpones)
             {
-                Console.WriteLine(galpon.Descripcion + ":");
-
                 //foreach (Gpr_Tipo_ServicioDTO tiposervicio in tiposervicios)
                 //{
                 //    if (tiposervicio.IdGprTipoServicio == 2)
@@ -84,6 +87,8 @@ namespace SIGEPROAVI_Domotica
                         {
                             if (Topic == componenteelectronico.Topic)
                             {
+                                Console.WriteLine(galpon.Descripcion + ":");
+
                                 Console.WriteLine("Servicio: " + servicio.Descripcion);
                                 Console.WriteLine(Mensaje);
                             }
@@ -114,7 +119,70 @@ namespace SIGEPROAVI_Domotica
             //    Console.WriteLine(Encoding.UTF8.GetString(e.Message) + "%");
             //}
 
+            foreach (Gpr_GalponDTO galpon in galpones)
+            {
+                foreach (Gpr_ServicioDTO servicio in servicios)
+                {
+                    foreach (Gpr_Tipo_ServicioDTO tiposervicio in tiposervicios)
+                    {
+                        if (tiposervicio.Descripcion == "Control")
+                        {
+                            foreach (Dom_Componente_ElectronicoDTO componenteelectronico in componenteselectronicos.Where(X => X.IdGprServicio == servicio.IdGprServicio))
+                            {
+                                foreach (Dom_Control_Componente_ElectronicoDTO controlcomponente in contolcomponenteelectronico.Where(X => X.IdDomComponenteElectronico == componenteelectronico.IdDomComponenteElectronico))
+                                {
+                                    if (controlcomponente.IdDomTipoControlComponenteElectronico == 3)
+                                    {
+                                        DateTime horaInicio = Convert.ToDateTime(controlcomponente.Inicio);
+                                        DateTime horaFin = Convert.ToDateTime(controlcomponente.Fin);
+
+                                        if (e.Topic == componenteelectronico.Topic)
+                                        {
+                                            if (horaInicio < DateTime.Now && horaFin.Hour >= DateTime.Now.Hour && horaFin.Minute > DateTime.Now.Minute)
+                                            {
+                                                if (Encoding.UTF8.GetString(e.Message) == "0")
+                                                {
+                                                    client.Publish(componenteelectronico.Topic, Encoding.UTF8.GetBytes("1"));
+                                                }
+                                            }
+                                            else if (horaFin.Hour <= DateTime.Now.Hour && horaFin.Minute <= DateTime.Now.Minute)
+                                            {
+                                                if (Encoding.UTF8.GetString(e.Message) == "1")
+                                                {
+                                                    client.Publish(componenteelectronico.Topic, Encoding.UTF8.GetBytes("0"));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                //if (Topic == componenteelectronico.Topic)
+                                //{
+                                //    Console.WriteLine(galpon.Descripcion + ":");
+
+                                //    Console.WriteLine("Servicio: " + servicio.Descripcion);
+                                //    Console.WriteLine(Mensaje);
+                                //}
+                            }
+                        }
+                    }
+                }
+            }
+
+
             mtdProcesarInformacion(e.Topic, Encoding.UTF8.GetString(e.Message));
+
+            Console.WriteLine(DateTime.Now.Second);
+
+            if ((DateTime.Now.Second >= 0 && DateTime.Now.Second < 10) && flipMinuto == 0)
+            {
+                mtdCargarInfo();
+                flipMinuto = 1;
+            }
+            else if (DateTime.Now.Second >= 10)
+            {
+                flipMinuto = 0;
+            }
         }
     }
 }
