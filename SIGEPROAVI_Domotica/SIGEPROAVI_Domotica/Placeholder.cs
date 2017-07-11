@@ -23,6 +23,10 @@ namespace SIGEPROAVI_Domotica
         public static List<Gpr_Tipo_ServicioDTO> tiposervicios = new List<Gpr_Tipo_ServicioDTO>();
         public static List<Dom_Control_Componente_ElectronicoDTO> contolcomponenteelectronico = new List<Dom_Control_Componente_ElectronicoDTO>();
 
+        public static List<Gpr_Medicion_DiariaDTO> medicionDiaria = new List<Gpr_Medicion_DiariaDTO>();
+        public static List<Gpr_Medicion_HorariaDTO> medicionHorariaTemporal = new List<Gpr_Medicion_HorariaDTO>();
+        public static List<Gpr_Medicion_HorariaDTO> medicionHoraria = new List<Gpr_Medicion_HorariaDTO>();
+
         public static int flip = 0;
         public static int flipMinuto = 0;
 
@@ -91,6 +95,22 @@ namespace SIGEPROAVI_Domotica
 
                                 Console.WriteLine("Servicio: " + servicio.Descripcion);
                                 Console.WriteLine(Mensaje);
+
+                                Gpr_Medicion_HorariaDTO medicionTemporal = new Gpr_Medicion_HorariaDTO();
+                                try
+                                {
+                                    medicionTemporal.IdGprGalpon = galpon.IdGprGalpon;
+                                    medicionTemporal.IdGprServicio = servicio.IdGprServicio;
+                                    medicionTemporal.Medicion = Convert.ToDecimal(Mensaje);
+                                }
+                                catch
+                                {
+                                }
+
+                                if (medicionTemporal.Medicion != 0)
+                                {
+                                    medicionHorariaTemporal.Add(medicionTemporal);
+                                }
                             }
                         }
                     }
@@ -145,7 +165,7 @@ namespace SIGEPROAVI_Domotica
                                                     client.Publish(componenteelectronico.Topic, Encoding.UTF8.GetBytes("1"));
                                                 }
                                             }
-                                            else if (horaFin.Hour <= DateTime.Now.Hour && horaFin.Minute <= DateTime.Now.Minute)
+                                            else if (horaFin.Hour <= DateTime.Now.Hour && horaFin.Minute <= DateTime.Now.Minute || horaInicio > DateTime.Now)
                                             {
                                                 if (Encoding.UTF8.GetString(e.Message) == "1")
                                                 {
@@ -169,10 +189,213 @@ namespace SIGEPROAVI_Domotica
                 }
             }
 
-
             mtdProcesarInformacion(e.Topic, Encoding.UTF8.GetString(e.Message));
 
-            Console.WriteLine(DateTime.Now.Second);
+            //Console.WriteLine(DateTime.Now.Second);
+
+            DateTime hoy = DateTime.Now;
+            DateTime ayer = DateTime.Now.AddDays(-1);
+            int minuto = hoy.Minute;
+            int hora = int.Parse(hoy.ToString("HH"));
+
+            Console.WriteLine(hora.ToString() + ":" + minuto.ToString());
+
+            //flip asegura que solo se ejecute el metodo 1 vez en la hora que se indique
+            if (minuto == 0 && hora != 0 && flip == 0)
+            {
+                foreach (Gpr_GalponDTO galpon in galpones)
+                {
+                    foreach (Gpr_ServicioDTO servicio in servicios.Where(X => X.Descripcion != "Control"))
+                    {
+                        decimal PromedioHorario = 0;
+                        int contador = 0;
+                        foreach (Gpr_Medicion_HorariaDTO medicion in medicionHorariaTemporal)
+                        {
+                            if (medicion.IdGprGalpon == galpon.IdGprGalpon && servicio.IdGprServicio == medicion.IdGprServicio)
+                            {
+                                PromedioHorario = PromedioHorario + medicion.Medicion;
+                                contador++;
+                            }
+                        }
+
+                        if (PromedioHorario > 0)
+                        {
+                            PromedioHorario = PromedioHorario / contador;
+
+                            //ejecutar el metodo para guardar lo almacenado por hora
+
+                            Gpr_Medicion_HorariaDTO medicionH = new Gpr_Medicion_HorariaDTO();
+                            medicionH.Fecha = hoy;
+                            medicionH.Hora = hora;
+                            medicionH.IdGprGalpon = galpon.IdGprGalpon;
+                            medicionH.IdGprServicio = servicio.IdGprServicio;
+                            medicionH.Medicion = PromedioHorario;
+
+                            medicionHoraria.Add(medicionH);
+
+                            Gpr_Medicion_Horaria_Controlador.GuardarMedicionHoraria(medicionH);
+                        }
+                    }
+                }
+
+                // se cancela el ciclo
+                flip = 1;
+                medicionHorariaTemporal.Clear();
+                Console.WriteLine("IF 1");
+            }
+            else if (minuto == 0 && hora == 0 && flip == 0)
+            {
+                //ejecutar el metodo para guardar lo almacenado por hora a las 12
+                foreach (Gpr_GalponDTO galpon in galpones)
+                {
+                    foreach (Gpr_ServicioDTO servicio in servicios.Where(X => X.Descripcion != "Control"))
+                    {
+                        decimal PromedioHorario = 0;
+                        int contador = 0;
+                        foreach (Gpr_Medicion_HorariaDTO medicion in medicionHorariaTemporal)
+                        {
+                            if (medicion.IdGprGalpon == galpon.IdGprGalpon && servicio.IdGprServicio == medicion.IdGprServicio)
+                            {
+                                PromedioHorario = PromedioHorario + medicion.Medicion;
+                                contador++;
+                            }
+                        }
+
+                        if (PromedioHorario > 0)
+                        {
+                            PromedioHorario = PromedioHorario / contador;
+
+                            //ejecutar el metodo para guardar lo almacenado por hora
+
+                            Gpr_Medicion_HorariaDTO medicionH = new Gpr_Medicion_HorariaDTO();
+                            medicionH.Fecha = ayer;
+                            medicionH.Hora = 24;
+                            medicionH.IdGprGalpon = galpon.IdGprGalpon;
+                            medicionH.IdGprServicio = servicio.IdGprServicio;
+                            medicionH.Medicion = PromedioHorario;
+
+                            medicionHoraria.Add(medicionH);
+
+                            Gpr_Medicion_Horaria_Controlador.GuardarMedicionHoraria(medicionH);
+                        }
+                    }
+                }
+
+                //foreach (DataRow drComboGalpon in dtComboGalpon.Rows)
+                //{
+                //    foreach (DataRow drServicio in dtServicio.Rows)
+                //    {
+                //        float PromedioDiario = 0;
+
+                //        int contador = 0;
+
+                //        foreach (cls_gprmedicionhorariaBN medicionPlaceholder in Medicion)
+                //        {
+                //            if (!float.IsNaN(medicionPlaceholder.Medicion) && medicionPlaceholder.IdGprGalpon == Convert.ToInt32(drComboGalpon["IdGprGalpon"].ToString()) && medicionPlaceholder.IdGprServicio == Convert.ToInt32(drServicio["IdGprServicio"].ToString()))
+                //            {
+                //                PromedioDiario = PromedioDiario + medicionPlaceholder.Medicion;
+                //                contador++;
+                //            }
+                //        }
+
+                //        PromedioDiario = PromedioDiario / contador;
+
+                //        //ejecutar el metodo para guardar lo almacenado por hora
+                //        var _with1 = cls_gprmedicionhorariaBUS;
+                //        _with1.IdGprMedicionHoraria = 0;
+                //        _with1.IdGprGalpon = Convert.ToInt32(drComboGalpon["IdGprGalpon"].ToString()); ;
+                //        _with1.IdGprServicio = Convert.ToInt32(drServicio["IdGprServicio"].ToString()); ;
+                //        _with1.Hora = 24;
+                //        _with1.Fecha = ayer;
+                //        _with1.Medicion = PromedioDiario;
+
+                //        int resultado = cls_gprmedicionhorariaBUS.fnc_I_MedicionHorariaBUS();
+                //    }
+                //}
+
+                foreach (Gpr_GalponDTO galpon in galpones)
+                {
+                    foreach (Gpr_ServicioDTO servicio in servicios.Where(X => X.Descripcion != "Control"))
+                    {
+                        decimal PromedioDiario = 0;
+                        int contador = 0;
+                        foreach (Gpr_Medicion_HorariaDTO medicion in medicionHoraria)
+                        {
+                            if (medicion.IdGprGalpon == galpon.IdGprGalpon && servicio.IdGprServicio == medicion.IdGprServicio)
+                            {
+                                PromedioDiario = PromedioDiario + medicion.Medicion;
+                                contador++;
+                            }
+                        }
+
+                        if (PromedioDiario > 0)
+                        {
+                            PromedioDiario = PromedioDiario / contador;
+
+                            //ejecutar el metodo para guardar lo almacenado por dia
+
+                            Gpr_Medicion_DiariaDTO medicionD = new Gpr_Medicion_DiariaDTO();
+                            medicionD.Fecha = ayer;
+                            medicionD.IdGprGalpon = galpon.IdGprGalpon;
+                            medicionD.IdGprServicio = servicio.IdGprServicio;
+                            medicionD.Medicion = PromedioDiario;
+
+                            medicionDiaria.Add(medicionD);
+
+                            Gpr_Medicion_Diaria_Controlador.GuardarMedicionDiaria(medicionD);
+                        }
+                    }
+                }
+
+                //DataTable dtMedicionDiaria = new DataTable();
+                //dtMedicionDiaria = cls_gprmedicionhorariaBUS.fncusp_S_ListarMedicionHorariaXFechaBUS(ayer.ToString("dd-MM-yyyy"));
+                //foreach (DataRow drComboGalpon in dtComboGalpon.Rows)
+                //{
+                //    foreach (DataRow drServicio in dtServicio.Rows)
+                //    {
+                //        float PromedioDiario = 0;
+
+                //        int contador = 0;
+
+                //        foreach (DataRow drMedicionDiaria in dtMedicionDiaria.Rows)
+                //        {
+                //            if (Convert.ToInt32(drMedicionDiaria["IdGprGalpon"].ToString()) == Convert.ToInt32(drComboGalpon["IdGprGalpon"].ToString()) && Convert.ToInt32(drMedicionDiaria["IdGprServicio"].ToString()) == Convert.ToInt32(drServicio["IdGprServicio"].ToString()))
+                //            {
+                //                PromedioDiario = PromedioDiario + (float)Convert.ToDouble(drMedicionDiaria["Medicion"].ToString());
+                //                contador++;
+                //            }
+                //        }
+
+                //        PromedioDiario = PromedioDiario / contador;
+
+                //        //ejecutar el metodo para guardar lo almacenado por hora
+                //        var _with1 = cls_gprmediciondiariaBUS;
+                //        _with1.IdGprMedicionDiaria = 0;
+                //        _with1.IdGprGalpon = Convert.ToInt32(drComboGalpon["IdGprGalpon"].ToString()); ;
+                //        _with1.IdGprServicio = Convert.ToInt32(drServicio["IdGprServicio"].ToString()); ;
+                //        _with1.Fecha = ayer;
+                //        _with1.Medicion = PromedioDiario;
+
+                //        int resultado = cls_gprmediciondiariaBUS.fnc_I_MedicionDiariaBUS();
+                //    }
+                //}
+
+                // se cancela el ciclo
+                flip = 1;
+                medicionHoraria.Clear();
+                Console.WriteLine("IF 2");
+            }
+            else if (minuto == 1)
+            {
+                flip = 0;
+                Console.WriteLine("IF 3");
+            }
+            else
+            {
+                Console.WriteLine("EN ESPERA");
+            }
+
+            //Refresco de información
 
             if ((DateTime.Now.Second >= 0 && DateTime.Now.Second < 10) && flipMinuto == 0)
             {

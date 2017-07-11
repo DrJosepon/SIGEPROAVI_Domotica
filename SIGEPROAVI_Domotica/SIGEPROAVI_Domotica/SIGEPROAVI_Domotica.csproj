@@ -55,6 +55,8 @@
     <Compile Include="Controlador\Dom_Componente_Electronico_Controlador.cs" />
     <Compile Include="Controlador\Dom_Control_Componente_Electronico_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Galpon_Controlador.cs" />
+    <Compile Include="Controlador\Gpr_Medicion_Diaria_Controlador.cs" />
+    <Compile Include="Controlador\Gpr_Medicion_Horaria_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Servicio_Controlador.cs" />
     <Compile Include="Controlador\Dom_Tipo_Control_Componente_Electronico_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Tipo_Servicio_Controlador.cs" />
@@ -63,6 +65,8 @@
     <Compile Include="DTO\Dom_Control_Componente_ElectronicoDTO.cs" />
     <Compile Include="DTO\Dom_Tipo_Control_Componente_ElectronicoDTO.cs" />
     <Compile Include="DTO\Gpr_GalponDTO.cs" />
+    <Compile Include="DTO\Gpr_Medicion_DiariaDTO.cs" />
+    <Compile Include="DTO\Gpr_Medicion_HorariaDTO.cs" />
     <Compile Include="DTO\Gpr_ServicioDTO.cs" />
     <Compile Include="DTO\Gpr_Tipo_ServicioDTO.cs" />
     <Compile Include="DTO\IBaseEntidad.cs" />
