@@ -12,7 +12,7 @@ namespace SIGEPROAVI_Domotica.DTO
 
         public decimal Medicion { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public string Fecha { get; set; }
 
         public int IdGprServicio { get; set; }
         public int IdGprGalpon { get; set; }

@@ -17,6 +17,7 @@ namespace SIGEPROAVI_Domotica.Controlador
         public static void GuardarMedicionDiaria(Gpr_Medicion_DiariaDTO data)
         {
             var request = new RestRequest("Gpr_Medicion_Diaria", Method.POST);
+            request.RequestFormat = DataFormat.Json;
             request.AddHeader("Content-type", "application/json");
             request.AddJsonBody(data);
             //request.AddBody(data);

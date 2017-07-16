@@ -174,15 +174,80 @@ namespace SIGEPROAVI_Domotica
                                             }
                                         }
                                     }
+                                    //Pendiente
+                                    else if (controlcomponente.IdDomTipoControlComponenteElectronico == 2)
+                                    {
+                                        decimal Promedio = 0;
+                                        int contador = 0;
+                                        foreach (Gpr_Medicion_HorariaDTO medicion in medicionHorariaTemporal)
+                                        {
+                                            if (medicion.IdGprGalpon == galpon.IdGprGalpon && medicion.IdGprServicio == 1)
+                                            {
+                                                Promedio = Promedio + medicion.Medicion;
+                                                contador++;
+                                            }
+                                        }
+
+                                        if (Promedio > 0)
+                                        {
+                                            Promedio = Promedio / contador;
+
+                                            if (e.Topic == componenteelectronico.Topic)
+                                            {
+                                                if (Convert.ToInt32(controlcomponente.Inicio) <= Promedio)
+                                                {
+                                                    if (Encoding.UTF8.GetString(e.Message) == "0")
+                                                    {
+                                                        client.Publish(componenteelectronico.Topic, Encoding.UTF8.GetBytes("1"));
+                                                    }
+                                                }
+                                                else if (Promedio <= Convert.ToInt32(controlcomponente.Fin))
+                                                {
+                                                    if (Encoding.UTF8.GetString(e.Message) == "1")
+                                                    {
+                                                        client.Publish(componenteelectronico.Topic, Encoding.UTF8.GetBytes("0"));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (controlcomponente.IdDomTipoControlComponenteElectronico == 1)
+                                    {
+                                        decimal Promedio = 0;
+                                        int contador = 0;
+                                        foreach (Gpr_Medicion_HorariaDTO medicion in medicionHorariaTemporal)
+                                        {
+                                            if (medicion.IdGprGalpon == galpon.IdGprGalpon && medicion.IdGprServicio == 2)
+                                            {
+                                                Promedio = Promedio + medicion.Medicion;
+                                                contador++;
+                                            }
+                                        }
+
+                                        if (Promedio > 0)
+                                        {
+                                            Promedio = Promedio / contador;
+
+                                            if (e.Topic == componenteelectronico.Topic)
+                                            {
+                                                if (Convert.ToInt32(controlcomponente.Inicio) <= Promedio)
+                                                {
+                                                    if (Encoding.UTF8.GetString(e.Message) == "0")
+                                                    {
+                                                        client.Publish(componenteelectronico.Topic, Encoding.UTF8.GetBytes("1"));
+                                                    }
+                                                }
+                                                else if (Promedio <= Convert.ToInt32(controlcomponente.Fin))
+                                                {
+                                                    if (Encoding.UTF8.GetString(e.Message) == "1")
+                                                    {
+                                                        client.Publish(componenteelectronico.Topic, Encoding.UTF8.GetBytes("0"));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-
-                                //if (Topic == componenteelectronico.Topic)
-                                //{
-                                //    Console.WriteLine(galpon.Descripcion + ":");
-
-                                //    Console.WriteLine("Servicio: " + servicio.Descripcion);
-                                //    Console.WriteLine(Mensaje);
-                                //}
                             }
                         }
                     }
@@ -199,6 +264,7 @@ namespace SIGEPROAVI_Domotica
             int hora = int.Parse(hoy.ToString("HH"));
 
             Console.WriteLine(hora.ToString() + ":" + minuto.ToString());
+            Console.WriteLine(hoy);
 
             //flip asegura que solo se ejecute el metodo 1 vez en la hora que se indique
             if (minuto == 0 && hora != 0 && flip == 0)
@@ -225,7 +291,7 @@ namespace SIGEPROAVI_Domotica
                             //ejecutar el metodo para guardar lo almacenado por hora
 
                             Gpr_Medicion_HorariaDTO medicionH = new Gpr_Medicion_HorariaDTO();
-                            medicionH.Fecha = hoy;
+                            medicionH.Fecha = hoy.ToString("dd-MM-yyyy");
                             medicionH.Hora = hora;
                             medicionH.IdGprGalpon = galpon.IdGprGalpon;
                             medicionH.IdGprServicio = servicio.IdGprServicio;
@@ -268,7 +334,7 @@ namespace SIGEPROAVI_Domotica
                             //ejecutar el metodo para guardar lo almacenado por hora
 
                             Gpr_Medicion_HorariaDTO medicionH = new Gpr_Medicion_HorariaDTO();
-                            medicionH.Fecha = ayer;
+                            medicionH.Fecha = ayer.ToString("dd-MM-yyyy"); ;
                             medicionH.Hora = 24;
                             medicionH.IdGprGalpon = galpon.IdGprGalpon;
                             medicionH.IdGprServicio = servicio.IdGprServicio;
@@ -335,7 +401,7 @@ namespace SIGEPROAVI_Domotica
                             //ejecutar el metodo para guardar lo almacenado por dia
 
                             Gpr_Medicion_DiariaDTO medicionD = new Gpr_Medicion_DiariaDTO();
-                            medicionD.Fecha = ayer;
+                            medicionD.Fecha = ayer.ToString("dd-MM-yyyy"); ;
                             medicionD.IdGprGalpon = galpon.IdGprGalpon;
                             medicionD.IdGprServicio = servicio.IdGprServicio;
                             medicionD.Medicion = PromedioDiario;
