@@ -1,12 +1,11 @@
-﻿using SIGEPROAVI_Domotica.DTO;
-using SIGEPROAVI_Domotica.Controlador;
+﻿using SIGEPROAVI_Domotica.Controlador;
+using SIGEPROAVI_Domotica.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
