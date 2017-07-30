@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publicar\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +52,10 @@
       <HintPath>..\packages\M2Mqtt.4.3.0.0\lib\net45\M2Mqtt.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
       <Private>True</Private>
@@ -54,7 +73,9 @@
   <ItemGroup>
     <Compile Include="Controlador\Dom_Componente_Electronico_Controlador.cs" />
     <Compile Include="Controlador\Dom_Control_Componente_Electronico_Controlador.cs" />
+    <Compile Include="Controlador\Gpr_Costo_Servicio_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Galpon_Controlador.cs" />
+    <Compile Include="Controlador\Gpr_Gasto_Diario_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Medicion_Diaria_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Medicion_Horaria_Controlador.cs" />
     <Compile Include="Controlador\Gpr_Servicio_Controlador.cs" />
@@ -64,7 +85,9 @@
     <Compile Include="DTO\Dom_Componente_ElectronicoDTO.cs" />
     <Compile Include="DTO\Dom_Control_Componente_ElectronicoDTO.cs" />
     <Compile Include="DTO\Dom_Tipo_Control_Componente_ElectronicoDTO.cs" />
+    <Compile Include="DTO\Gpr_Costo_ServicioDTO.cs" />
     <Compile Include="DTO\Gpr_GalponDTO.cs" />
+    <Compile Include="DTO\Gpr_Gasto_DiarioDTO.cs" />
     <Compile Include="DTO\Gpr_Medicion_DiariaDTO.cs" />
     <Compile Include="DTO\Gpr_Medicion_HorariaDTO.cs" />
     <Compile Include="DTO\Gpr_ServicioDTO.cs" />
@@ -78,7 +101,18 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
