@@ -18,5 +18,3 @@ C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_
 C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\M2Mqtt.Net.pdb
 C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\RestSharp.xml
 C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\obj\Debug\SIGEPROAVI_Domotica.csprojResolveAssemblyReference.cache
-C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Joselo\Source\Repos\sigeproavi_domotica\SIGEPROAVI_Domotica\SIGEPROAVI_Domotica\bin\Debug\Newtonsoft.Json.xml

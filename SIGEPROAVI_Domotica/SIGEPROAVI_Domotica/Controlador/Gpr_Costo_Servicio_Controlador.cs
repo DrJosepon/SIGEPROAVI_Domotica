@@ -12,7 +12,7 @@ namespace SIGEPROAVI_Domotica.Controlador
 
         public static List<Gpr_Costo_ServicioDTO> ListarCostoServicios()
         {
-            var request = new RestRequest("Gpr_Costo_Servicio", Method.GET);
+            var request = new RestRequest("Gpr_Costo_Servicio/Activo", Method.GET);
             request.RequestFormat = DataFormat.Json;
 
             //request.AddParameter("Gpr_Costo_Servicio", request.JsonSerializer.Serialize(gpr_Galpon));

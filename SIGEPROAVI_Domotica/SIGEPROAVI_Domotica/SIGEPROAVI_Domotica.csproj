@@ -89,12 +89,13 @@
     <Compile Include="DTO\Gpr_ServicioDTO.cs" />
     <Compile Include="DTO\Gpr_Tipo_ServicioDTO.cs" />
     <Compile Include="DTO\IBaseEntidad.cs" />
-    <Compile Include="Placeholder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
