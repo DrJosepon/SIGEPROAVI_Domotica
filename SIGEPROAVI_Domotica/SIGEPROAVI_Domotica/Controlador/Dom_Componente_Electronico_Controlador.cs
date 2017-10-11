@@ -10,13 +10,10 @@ namespace SIGEPROAVI_Domotica.Controlador
 
         private static RestClient client = new RestClient(rutaAPI);
 
-        public static List<Dom_Componente_ElectronicoDTO> ListarTipoControlComponenteElectronico()
+        public static List<Dom_Componente_ElectronicoDTO> ListarComponenteElectronico()
         {
             var request = new RestRequest("Dom_Componente_Electronico", Method.GET);
             request.RequestFormat = DataFormat.Json;
-
-            //request.AddParameter("Gpr_Galpon", request.JsonSerializer.Serialize(gpr_Galpon));
-            //request.AddBody(gpr_Galpon);
 
             var response = client.Execute<List<Dom_Componente_ElectronicoDTO>>(request);
 

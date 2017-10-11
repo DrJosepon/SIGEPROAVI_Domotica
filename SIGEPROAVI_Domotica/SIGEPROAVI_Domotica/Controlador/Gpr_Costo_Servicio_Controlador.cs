@@ -10,13 +10,10 @@ namespace SIGEPROAVI_Domotica.Controlador
 
         private static RestClient client = new RestClient(rutaAPI);
 
-        public static List<Gpr_Costo_ServicioDTO> ListarCostoServicios()
+        public static List<Gpr_Costo_ServicioDTO> ListarCostoServicioActivo()
         {
             var request = new RestRequest("Gpr_Costo_Servicio/Activo", Method.GET);
             request.RequestFormat = DataFormat.Json;
-
-            //request.AddParameter("Gpr_Costo_Servicio", request.JsonSerializer.Serialize(gpr_Galpon));
-            //request.AddBody(gpr_Galpon);
 
             var response = client.Execute<List<Gpr_Costo_ServicioDTO>>(request);
 

@@ -10,7 +10,7 @@ namespace SIGEPROAVI_Domotica.Controlador
 
         private static RestClient client = new RestClient(rutaAPI);
 
-        public static List<Gpr_Tipo_ServicioDTO> ListarTipoServicioes()
+        public static List<Gpr_Tipo_ServicioDTO> ListarTipoServicio()
         {
             var request = new RestRequest("Gpr_Tipo_Servicio", Method.GET);
             request.RequestFormat = DataFormat.Json;

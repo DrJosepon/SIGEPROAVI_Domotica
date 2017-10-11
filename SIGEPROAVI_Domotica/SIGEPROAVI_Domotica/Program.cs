@@ -45,13 +45,13 @@ namespace SIGEPROAVI_Domotica
 
         private static void mtdCargarInfo()
         {
-            galpones = Gpr_Galpon_Controlador.ListarGalpones();
-            servicios = Gpr_Servicio_Controlador.ListarServicioes();
-            componenteselectronicos = Dom_Componente_Electronico_Controlador.ListarTipoControlComponenteElectronico();
+            galpones = Gpr_Galpon_Controlador.ListarGalpon();
+            servicios = Gpr_Servicio_Controlador.ListarServicio();
+            componenteselectronicos = Dom_Componente_Electronico_Controlador.ListarComponenteElectronico();
             tipocontrolescomponenteselectronicos = Dom_Tipo_Control_Componente_Electronico_Controlador.ListarTipoControlComponenteElectronico();
-            tiposervicios = Gpr_Tipo_Servicio_Controlador.ListarTipoServicioes();
+            tiposervicios = Gpr_Tipo_Servicio_Controlador.ListarTipoServicio();
             contolcomponenteelectronico = Dom_Control_Componente_Electronico_Controlador.ListarControlComponenteElectronico();
-            costoServicios = Gpr_Costo_Servicio_Controlador.ListarCostoServicios();
+            costoServicios = Gpr_Costo_Servicio_Controlador.ListarCostoServicioActivo();
         }
 
         private static void mtdCargarTopics()
