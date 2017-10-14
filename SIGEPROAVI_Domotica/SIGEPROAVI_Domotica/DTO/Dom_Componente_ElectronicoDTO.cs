@@ -9,5 +9,7 @@
         public int IdDomTipoComponenteElectronico { get; set; }
         public int IdGprGalpon { get; set; }
         public int IdGprServicio { get; set; }
+
+        public bool Estado { get; set; }
     }
 }

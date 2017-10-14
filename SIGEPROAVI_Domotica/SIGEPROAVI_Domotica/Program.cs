@@ -47,7 +47,7 @@ namespace SIGEPROAVI_Domotica
         {
             galpones = Gpr_Galpon_Controlador.ListarGalpon();
             servicios = Gpr_Servicio_Controlador.ListarServicio();
-            componenteselectronicos = Dom_Componente_Electronico_Controlador.ListarComponenteElectronico();
+            componenteselectronicos = Dom_Componente_Electronico_Controlador.ListarComponenteElectronico().Where(X => X.Estado == true).ToList();
             tipocontrolescomponenteselectronicos = Dom_Tipo_Control_Componente_Electronico_Controlador.ListarTipoControlComponenteElectronico();
             tiposervicios = Gpr_Tipo_Servicio_Controlador.ListarTipoServicio();
             contolcomponenteelectronico = Dom_Control_Componente_Electronico_Controlador.ListarControlComponenteElectronico();
